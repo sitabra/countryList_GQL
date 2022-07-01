@@ -30,11 +30,7 @@ class _HomePageState extends State<HomePage> {
       List dummyListData =
           []; // to store list searched data for runtime if query is not empty
       for (var searchedCountry in dummyList) {
-        if (searchedCountry.code
-            .toString()
-            .toLowerCase()
-            .contains(query.toLowerCase())) {
-          // to search on the basis of name of the country
+        if (searchedCountry.code.toString().toLowerCase() == query.toLowerCase()) {
           setState(() {
             dummyListData.add(
                 searchedCountry); // to store searched data on the dummy list data
@@ -81,47 +77,6 @@ class _HomePageState extends State<HomePage> {
   Future<List<Country>> future = getAllCountries();
 
   Future<List<Languages>> futureLang = getAllLanguages();
-
-  Future<void> filter(String query) async {
-    searchedItemsIndexPosition.clear();
-    List dummySearchList = [];
-    dummySearchList.addAll(countries);
-    if (query.isNotEmpty) {
-      List dummyListData = [];
-      for (var item in dummySearchList) {
-        debugPrint(item.languages.toString());
-        for (var i = 0; i < item.languages.length; i++) {
-          Languages lang = item.languages![i];
-          if (lang.name.toString().toLowerCase() == query.toLowerCase()) {
-            setState(() {
-              dummyListData.add(item);
-            });
-          }
-        }
-      }
-      setState(() {
-        searchedItems.clear();
-        searchedItems.addAll(dummyListData);
-        searchedItemsIndexPosition.clear();
-        for (var i = 0; i < searchedItems.length; i++) {
-          final index = dummySearchList
-              .indexWhere((element) => element.code == searchedItems[i].code);
-          searchedItemsIndexPosition.add(index);
-        }
-      });
-      searchedItems.clear();
-      for (var i = 0; i < searchedItemsIndexPosition.length; i++) {
-        searchedItems.add(
-            countries[int.parse(searchedItemsIndexPosition[i].toString())]);
-      }
-      return;
-    } else {
-      setState(() {
-        searchedItems.clear();
-      });
-    }
-  }
-
 
   Future<void> filterItem(String query) async {
     searchedItemsIndexPosition.clear();
