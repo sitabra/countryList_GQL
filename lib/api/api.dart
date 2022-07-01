@@ -17,10 +17,14 @@ final GraphQLClient client = GraphQLClient(
 const _getAllCountries = r'''
 query {
   countries{
-    code
-    name
-    capital
-    emoji
+    code,
+    name,
+    capital,
+    emoji,
+    languages{
+    code,
+    name,
+    }
     }
   }
 ''';
@@ -43,6 +47,15 @@ query getCountry($code:ID!){
 }
 
 ''';
+const getAllLanguage = r'''
+query {
+ languages {
+    code
+    name 
+   }
+  }
+''';
+
 
 Future<List<Country>> getAllCountries() async {
   var result = await client.query(
@@ -77,4 +90,22 @@ Future<Country> getCountry(String code) async {
 
   var country = Country.fromJson(json);
   return country;
+}
+
+Future<List<Languages>> getAllLanguages() async {
+  var result = await client.query(
+    QueryOptions(
+      document: gql(getAllLanguage),
+    ),
+  );
+  if (result.hasException) {
+    throw result.exception!;
+  }
+  var json = result.data!["languages"];
+  List<Languages> lang = [];
+  for (var res in json) {
+    var languages = Languages.fromJson(res);
+    lang.add(languages);
+  }
+  return lang;
 }
