@@ -1,4 +1,5 @@
 import 'package:countries_list_with_graphql/common/apiConstant.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:graphql/client.dart';
 
 import '../model/country_model.dart';
@@ -55,7 +56,6 @@ query {
    }
   }
 ''';
-
 
 Future<List<Country>> getAllCountries() async {
   var result = await client.query(
