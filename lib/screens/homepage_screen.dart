@@ -237,7 +237,7 @@ class _HomePageState extends State<HomePage> {
                   enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.blueGrey)),
                   focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white)),
+                      borderSide: BorderSide(color: Colors.blueAccent)),
                   hintText: "Search with Country Code",
                 ),
                 onChanged: (v) {
