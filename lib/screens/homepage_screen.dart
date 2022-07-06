@@ -251,18 +251,28 @@ class _HomePageState extends State<HomePage> {
                   width: double.infinity,
                   height: 50,
                   color: Colors.white60,
-                  child: Center(
-                    child: RichText(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      RichText(
                 text:  TextSpan(
-                    style: const TextStyle(color: Colors.black, fontSize: 36),
-                    children: <TextSpan>[
-                      const TextSpan(text: 'Selected language: ', style: TextStyle(color: Colors.black)),
-                      TextSpan(text: selectedLanguage, style: const TextStyle(color: Colors.blue,
-                          decoration: TextDecoration.underline))
-                    ],
+                      style: const TextStyle(color: Colors.black, fontSize: 36),
+                      children: <TextSpan>[
+                        const TextSpan(text: 'Selected language: ', style: TextStyle(color: Colors.black)),
+                        TextSpan(text: selectedLanguage, style: const TextStyle(color: Colors.blue,
+                            decoration: TextDecoration.underline))
+                      ],
                 ),
                 textScaleFactor: 0.5,
               ),
+                      IconButton(
+                          onPressed:() {
+                            Provider.of<CountryProvider>(context, listen: false).getSelectedItems([]);
+                            searchedItems.clear();
+                            Provider.of<CountryProvider>(context, listen: false).getSelectedLanguage(null);
+                          },
+                          icon: const Icon(Icons.clear))
+                    ],
                   )),
             Expanded(
               child: FutureBuilder<List<Country>>(
