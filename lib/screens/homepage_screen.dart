@@ -151,8 +151,8 @@ class _HomePageState extends State<HomePage> {
                       .getSelectedLanguage(null);
                   Provider.of<CountryProvider>(context, listen: false)
                       .getIndexPosition([]);
-                  Provider.of<CountryProvider>(context, listen: false)
-                      .getSelectedItems([]);
+                  Provider.of<CountryProvider>(context, listen: false).getSelectedItems([]);
+                  searchedItems.clear();
                 }
                       Navigator.pop(context);
                    },
@@ -183,26 +183,6 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.blueAccent,
         title: const Text("Country Directory"),
         actions: [
-          SizedBox(
-            width: 85,
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: TextField(
-                decoration: const InputDecoration(
-                  border: InputBorder.none,
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.blueGrey)),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white)),
-                  hintText: "Code",
-                ),
-                onChanged: (v) {
-                  Provider.of<CountryProvider>(context, listen: false).getSelectedLanguage(null);
-                  search(v, storedCountry, searchedItemsIndexPosition, searchedItems);
-                },
-              ),
-            ),
-          ),
           FutureBuilder<List<Languages>>(
             future: futureLang,
             builder: (context, snapshot) {
@@ -249,8 +229,41 @@ class _HomePageState extends State<HomePage> {
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: Column(
           children: [
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: TextField(
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                  enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blueGrey)),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white)),
+                  hintText: "Search with Country Code",
+                ),
+                onChanged: (v) {
+                  Provider.of<CountryProvider>(context, listen: false).getSelectedLanguage(null);
+                  search(v, storedCountry, searchedItemsIndexPosition, searchedItems);
+                },
+              ),
+            ),
             if (selectedLanguage != null)
-              Text("Selected Language - $selectedLanguage"),
+              Container(
+                  width: double.infinity,
+                  height: 50,
+                  color: Colors.white60,
+                  child: Center(
+                    child: RichText(
+                text:  TextSpan(
+                    style: const TextStyle(color: Colors.black, fontSize: 36),
+                    children: <TextSpan>[
+                      const TextSpan(text: 'Selected language: ', style: TextStyle(color: Colors.black)),
+                      TextSpan(text: selectedLanguage, style: const TextStyle(color: Colors.blue,
+                          decoration: TextDecoration.underline))
+                    ],
+                ),
+                textScaleFactor: 0.5,
+              ),
+                  )),
             Expanded(
               child: FutureBuilder<List<Country>>(
                 future: getAllCountries(),
